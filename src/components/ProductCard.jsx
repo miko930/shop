@@ -1,6 +1,16 @@
-import { IconHeart, IconShoppingCart } from '@tabler/icons-react';
+import { IconHeart, IconHeartFilled, IconShoppingCart } from '@tabler/icons-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useFavorites } from '../context/FavoritesContext';
 
 export default function ProductCard({ product, onClick }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite(product.id);
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    toggleFavorite(product);
+  };
+
   return (
     <div
       onClick={() => onClick(product)}
@@ -17,19 +27,32 @@ export default function ProductCard({ product, onClick }) {
       }}>
         {/* Heart button */}
         <button
-          onClick={(e) => e.stopPropagation()}
+          onClick={handleFavoriteClick}
           style={{
             position: 'absolute', top: 8, right: 8, zIndex: 10,
             display: 'flex', height: 34, width: 34, alignItems: 'center', justifyContent: 'center',
             borderRadius: '50%', border: 'none', cursor: 'pointer',
-            backgroundColor: 'rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            backgroundColor: favorited ? '#fff' : 'rgba(255,255,255,0.9)', 
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            transition: 'transform 0.2s ease',
+            transform: favorited ? 'scale(1.05)' : 'scale(1)'
           }}
         >
-          <IconHeart size={18} style={{ color: '#bbb' }} stroke={1.5} />
+          {favorited ? (
+            <IconHeartFilled size={18} style={{ color: '#e24b4a' }} />
+          ) : (
+            <IconHeart size={18} style={{ color: '#bbb' }} stroke={1.5} />
+          )}
         </button>
 
         {product.image_url ? (
-          <img src={product.image_url} alt={product.name} style={{ height: '100%', width: '100%', objectFit: 'cover' }} loading="lazy" />
+          <LazyLoadImage
+            src={product.image_url}
+            alt={product.name}
+            effect="blur"
+            style={{ height: '150px', width: '100%', objectFit: 'cover', display: 'block' }}
+            wrapperStyle={{ display: 'block', height: '100%', width: '100%' }}
+          />
         ) : (
           <div style={{ display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>
             {product.emoji || '📦'}
@@ -53,7 +76,10 @@ export default function ProductCard({ product, onClick }) {
             {product.price?.toLocaleString()} Br
           </span>
           <button
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+               e.stopPropagation();
+               // Here you could add to cart if you wanted to implement that later
+            }}
             style={{
               display: 'flex', height: 36, width: 36, alignItems: 'center', justifyContent: 'center',
               borderRadius: 12, border: 'none', cursor: 'pointer',

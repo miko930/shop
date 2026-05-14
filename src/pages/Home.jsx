@@ -9,6 +9,7 @@ import ProductCard from '../components/ProductCard';
 import SkeletonCard from '../components/SkeletonCard';
 import ProductModal from '../components/ProductModal';
 import PhonePopup from '../components/PhonePopup';
+import FavoritesModal from '../components/FavoritesModal';
 
 export default function Home() {
   const { products, loading } = useProducts();
@@ -19,6 +20,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [phoneOpen, setPhoneOpen] = useState(false);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -35,7 +37,7 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', paddingBottom: 32, backgroundColor: '#f9faf9' }}>
       {/* Header + Search */}
-      <Navbar>
+      <Navbar onFavoritesClick={() => setFavoritesOpen(true)}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 14,
           borderRadius: 22, padding: '17px 20px',
@@ -148,6 +150,11 @@ export default function Home() {
         onBuyNow={() => setPhoneOpen(true)}
       />
       <PhonePopup isOpen={phoneOpen} onClose={() => setPhoneOpen(false)} />
+      <FavoritesModal 
+        isOpen={favoritesOpen} 
+        onClose={() => setFavoritesOpen(false)} 
+        onProductClick={(p) => { setSelectedProduct(p); setModalOpen(true); }} 
+      />
     </div>
   );
 }

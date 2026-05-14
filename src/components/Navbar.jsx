@@ -1,6 +1,9 @@
 import { IconBell, IconHeart, IconMapPin } from '@tabler/icons-react';
+import { useFavorites } from '../context/FavoritesContext';
 
-export default function Navbar({ children }) {
+export default function Navbar({ children, onFavoritesClick }) {
+  const { favorites } = useFavorites();
+
   return (
     <header style={{ position: 'relative', zIndex: 50 }}>
       <div style={{
@@ -35,13 +38,26 @@ export default function Navbar({ children }) {
             }}>
               <IconBell size={22} stroke={1.5} />
             </button>
-            <button style={{
-              display: 'flex', height: 48, width: 48, alignItems: 'center', justifyContent: 'center',
-              borderRadius: '50%', border: '1.5px solid rgba(212,164,55,0.3)',
-              background: 'rgba(255,255,255,0.08)', color: '#fff', cursor: 'pointer',
-              backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-            }}>
+            <button 
+              onClick={onFavoritesClick}
+              style={{
+                display: 'flex', height: 48, width: 48, alignItems: 'center', justifyContent: 'center',
+                borderRadius: '50%', border: '1.5px solid rgba(212,164,55,0.3)',
+                background: 'rgba(255,255,255,0.08)', color: '#fff', cursor: 'pointer',
+                backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+                position: 'relative'
+              }}>
               <IconHeart size={22} stroke={1.5} />
+              {favorites.length > 0 && (
+                <div style={{
+                  position: 'absolute', top: -2, right: -2, width: 20, height: 20,
+                  borderRadius: '50%', backgroundColor: '#d4a437', color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 10, fontWeight: 800, border: '2px solid #080e1a'
+                }}>
+                  {favorites.length}
+                </div>
+              )}
             </button>
           </div>
         </div>
