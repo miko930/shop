@@ -16,7 +16,7 @@ export default function ProductModal({ product, isOpen, onClose, onBuyNow }) {
         <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 96 }}>
           <div style={{ position: 'relative', height: 260, width: '100%', backgroundColor: '#eef1f8' }}>
             {product.image_url ? (
-              <img src={product.image_url} alt={product.name} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+              <img src={product.image_url} alt={product.name} style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
             ) : (
               <div style={{ display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 80 }}>{product.emoji || '📦'}</div>
             )}
