@@ -3,8 +3,8 @@ import { IconBrandTelegram, IconPhoneCall } from '@tabler/icons-react';
 import { useBanners } from '../hooks/useBanners';
 
 const FALLBACK_BANNERS = [
-  { id: 1, title: 'ይህ ቦታ', subtitle: 'ለማስታወቂያ ክፍት ነው!', description: 'ምርት እና አገልግሎትን ያስተዋውቁ', cta_text: '0911675921', bg_color: '#1a3a6b', emoji: '📢' },
-  { id: 2, title: 'TAMADDISS', subtitle: 'ምርጥ ምርቶች በተመጣጣኝ ዋጋ!', description: 'ኤሌክትሮኒክስ፣ የቤት ዕቃዎች እና ሌሎችም', cta_text: '0911675921', bg_color: '#0a1628', emoji: '🛍️' },
+  { id: 1, title: 'ይህ ቦታ', subtitle: 'ለማስታወቂያ ክፍት ነው!', description: 'ምርት እና አገልግሎትን ያስተዋውቁ', cta_text: '0972140826', bg_color: '#1a3a6b', emoji: '📢' },
+  { id: 2, title: 'TAMADDISS', subtitle: 'ምርጥ ምርቶች በተመጣጣኝ ዋጋ!', description: 'ኤሌክትሮኒክስ፣ የቤት ዕቃዎች እና ሌሎችም', cta_text: '0972140826', bg_color: '#0a1628', emoji: '🛍️' },
 ];
 
 const TELEGRAM_LINK = 'https://t.me/gumerwatch1';
@@ -53,7 +53,7 @@ export default function AdBanner() {
         ) : (
           <>
             <div style={{ position: 'absolute', top: -24, right: -24, width: 96, height: 96, borderRadius: '50%', background: 'rgba(212,164,55,0.1)' }} />
-            <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 16, paddingRight: 40 }}>
+            <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 16, paddingLeft: 40, paddingRight: 10 }}>
               <div style={{ flex: 1 }}>
                 {b.title && <div style={{ fontSize: 17, fontWeight: 800, lineHeight: 1.2 }}>{b.title}</div>}
                 {b.subtitle && <div style={{ fontSize: 13, fontWeight: 700, opacity: 0.9, marginTop: 2 }}>{b.subtitle}</div>}
@@ -67,7 +67,7 @@ export default function AdBanner() {
 
         {/* Floating Icons Container */}
         <div style={{
-          position: 'absolute', bottom: 12, right: 12, zIndex: 10,
+          position: 'absolute', bottom: 12, left: 12, zIndex: 10,
           display: 'flex', flexDirection: 'row', gap: 10
         }}>
           {/* Telegram Icon */}
