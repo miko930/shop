@@ -68,7 +68,7 @@ export default function AdBanner() {
         {/* Floating Icons Container */}
         <div style={{
           position: 'absolute', bottom: 12, right: 12, zIndex: 10,
-          display: 'flex', flexDirection: 'column', gap: 8
+          display: 'flex', flexDirection: 'row', gap: 10
         }}>
           {/* Telegram Icon */}
           <a
@@ -76,30 +76,32 @@ export default function AdBanner() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
+            className="floating-icon"
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 32, height: 32, borderRadius: '50%',
+              width: 40, height: 40, borderRadius: '50%',
               backgroundColor: '#0088cc', color: '#fff',
               boxShadow: '0 4px 12px rgba(0,0,0,0.2)', textDecoration: 'none',
               transition: 'transform 0.2s',
             }}
           >
-            <IconBrandTelegram size={18} stroke={1.5} />
+            <IconBrandTelegram size={22} stroke={1.5} />
           </a>
 
           {/* Call Us Icon */}
           <a
             href={`tel:+251${extractPhone(b.cta_text).replace(/^0/, '')}`}
             onClick={(e) => e.stopPropagation()}
+            className="floating-icon"
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 32, height: 32, borderRadius: '50%',
+              width: 40, height: 40, borderRadius: '50%',
               backgroundColor: '#25D366', color: '#fff', // WhatsApp/Phone green
               boxShadow: '0 4px 12px rgba(0,0,0,0.2)', textDecoration: 'none',
               transition: 'transform 0.2s',
             }}
           >
-            <IconPhoneCall size={18} stroke={1.5} />
+            <IconPhoneCall size={22} stroke={1.5} />
           </a>
         </div>
       </div>
@@ -115,6 +117,22 @@ export default function AdBanner() {
           ))}
         </div>
       )}
+
+      {/* Floating animation */}
+      <style>{`
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-4px); }
+          100% { transform: translateY(0px); }
+        }
+        .floating-icon {
+          animation: float 2.5s ease-in-out infinite;
+        }
+        .floating-icon:hover {
+          animation-play-state: paused;
+          transform: scale(1.1) !important;
+        }
+      `}</style>
     </div>
   );
 }
