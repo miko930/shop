@@ -21,7 +21,7 @@ export default function ProductModal({ product, isOpen, onClose }) {
     setQty(prev => Math.max(1, prev + delta));
   };
 
-  const orderNow = async () => {
+  const orderNow = () => {
     const total = (product.price * qty).toLocaleString();
     const msg =
       `Hello TAMADDISS! 👋\n\n` +
@@ -32,17 +32,15 @@ export default function ProductModal({ product, isOpen, onClose }) {
       `📍 My delivery address: \n\n` +
       `Please call me back within 10 minutes to confirm. If I don't hear back, I'll call you.`;
 
-    // Log the inquiry to Supabase for the Admin panel
-    try {
-      await createInquiry({
-        product_id: product.id,
-        customer_phone: 'WhatsApp Order',
-        message: `Quantity: ${qty}, Total: ETB ${total}`,
-        is_handled: false
-      });
-    } catch (err) {
+    // Log the inquiry to Supabase for the Admin panel (fire and forget to maintain synchronous execution)
+    createInquiry({
+      product_id: product.id,
+      customer_phone: 'WhatsApp Order',
+      message: `Quantity: ${qty}, Total: ETB ${total}`,
+      is_handled: false
+    }).catch((err) => {
       console.error('Failed to log inquiry to Supabase:', err);
-    }
+    });
 
     const url = `https://wa.me/251972140826?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
