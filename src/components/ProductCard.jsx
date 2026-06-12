@@ -1,4 +1,4 @@
-import { IconHeart, IconHeartFilled, IconShoppingCart } from '@tabler/icons-react';
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useFavorites } from '../context/FavoritesContext';
 
@@ -11,83 +11,166 @@ export default function ProductCard({ product, onClick }) {
     toggleFavorite(product);
   };
 
+  const hasDiscount = product.old_price && product.old_price > product.price;
+
   return (
     <div
       onClick={() => onClick(product)}
       style={{
-        cursor: 'pointer', overflow: 'hidden', borderRadius: 20,
-        backgroundColor: '#f4f5f7', padding: 10,
-        transition: 'all 0.2s',
+        background: 'var(--color-store-card)',
+        border: '1px solid var(--color-store-border)',
+        borderRadius: '14px',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'border-color 0.2s, transform 0.15s',
+        position: 'relative',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--color-gold-dim)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--color-store-border)';
+        e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
-      {/* Image area */}
+      {/* Category Badge */}
       <div style={{
-        position: 'relative', borderRadius: 16, overflow: 'hidden',
-        height: 150, backgroundColor: '#fff',
+        position: 'absolute',
+        top: '8px',
+        left: '8px',
+        background: 'rgba(10, 10, 10, 0.85)',
+        border: '1px solid var(--color-gold-dim)',
+        color: 'var(--color-gold)',
+        fontSize: '9px',
+        letterSpacing: '0.1em',
+        padding: '3px 8px',
+        borderRadius: '4px',
+        textTransform: 'uppercase',
+        backdropFilter: 'blur(4px)',
+        zIndex: 5,
       }}>
-        {/* Heart button */}
-        <button
-          onClick={handleFavoriteClick}
-          style={{
-            position: 'absolute', top: 8, right: 8, zIndex: 10,
-            display: 'flex', height: 34, width: 34, alignItems: 'center', justifyContent: 'center',
-            borderRadius: '50%', border: 'none', cursor: 'pointer',
-            backgroundColor: favorited ? '#fff' : 'rgba(255,255,255,0.9)', 
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-            transition: 'transform 0.2s ease',
-            transform: favorited ? 'scale(1.05)' : 'scale(1)'
-          }}
-        >
-          {favorited ? (
-            <IconHeartFilled size={18} style={{ color: '#e24b4a' }} />
-          ) : (
-            <IconHeart size={18} style={{ color: '#bbb' }} stroke={1.5} />
-          )}
-        </button>
+        {product.category}
+      </div>
 
+      {/* Sale Badge */}
+      {hasDiscount && (
+        <div style={{
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          background: 'var(--color-gold)',
+          color: 'var(--color-black)',
+          fontSize: '9px',
+          fontWeight: 700,
+          letterSpacing: '0.05em',
+          padding: '3px 7px',
+          borderRadius: '4px',
+          zIndex: 5,
+        }}>
+          SALE
+        </div>
+      )}
+
+      {/* Favorite Button (Bottom Right of Image Area) */}
+      <button
+        onClick={handleFavoriteClick}
+        style={{
+          position: 'absolute',
+          bottom: '8px',
+          right: '8px',
+          zIndex: 10,
+          display: 'flex',
+          height: '30px',
+          width: '30px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '50%',
+          border: 'none',
+          cursor: 'pointer',
+          backgroundColor: 'rgba(10, 10, 10, 0.75)',
+          backdropFilter: 'blur(4px)',
+          color: favorited ? 'var(--color-gold)' : 'rgba(245, 240, 232, 0.6)',
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+        aria-label="Toggle Favorite"
+      >
+        {favorited ? (
+          <IconHeartFilled size={16} />
+        ) : (
+          <IconHeart size={16} stroke={1.8} />
+        )}
+      </button>
+
+      {/* Image Area */}
+      <div style={{ width: '100%', aspectRatio: '1', position: 'relative', overflow: 'hidden', background: '#1a1a1a' }}>
         {product.image_url ? (
           <LazyLoadImage
             src={product.image_url}
             alt={product.name}
             effect="blur"
-            style={{ height: '150px', width: '100%', objectFit: 'cover', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             wrapperStyle={{ display: 'block', height: '100%', width: '100%' }}
           />
         ) : (
-          <div style={{ display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>
-            {product.emoji || '📦'}
+          <div style={{
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(135deg, #1a1a1a 0%, #222 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'var(--font-serif)',
+            fontSize: '32px',
+            color: 'var(--color-gold-dim)',
+          }}>
+            {product.emoji || '✦'}
           </div>
         )}
       </div>
 
-      {/* Info */}
-      <div style={{ padding: '12px 4px 4px' }}>
+      {/* Card Body */}
+      <div style={{ padding: '12px' }}>
+        <p style={{
+          fontSize: '9px',
+          letterSpacing: '0.2em',
+          color: 'var(--color-gold-dim)',
+          textTransform: 'uppercase',
+          marginBottom: '3px',
+        }}>
+          {product.brand || 'TAMADDISS'}
+        </p>
         <h3 style={{
-          fontSize: 13, fontWeight: 600, color: '#1a1a2e', lineHeight: 1.4,
-          overflow: 'hidden', textOverflow: 'ellipsis',
-          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-          minHeight: 36, marginBottom: 8,
+          fontFamily: 'var(--font-serif)',
+          fontSize: '15px',
+          fontWeight: 600,
+          lineHeight: 1.2,
+          color: 'var(--color-white)',
+          marginBottom: '6px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          minHeight: '36px',
         }}>
           {product.name}
         </h3>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e' }}>
-            {product.price?.toLocaleString()} Br
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+          <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-gold)' }}>
+            ETB {product.price?.toLocaleString()}
           </span>
-          <button
-            onClick={(e) => {
-               e.stopPropagation();
-               // Here you could add to cart if you wanted to implement that later
-            }}
-            style={{
-              display: 'flex', height: 36, width: 36, alignItems: 'center', justifyContent: 'center',
-              borderRadius: 12, border: 'none', cursor: 'pointer',
-              backgroundColor: '#e8f0fe', color: '#1a3a6b',
-            }}
-          >
-            <IconShoppingCart size={18} stroke={1.8} />
-          </button>
+          {hasDiscount && (
+            <span style={{ fontSize: '11px', color: 'var(--color-muted)', textDecoration: 'line-through' }}>
+              ETB {product.old_price?.toLocaleString()}
+            </span>
+          )}
         </div>
       </div>
     </div>

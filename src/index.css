@@ -14,10 +14,23 @@
   --color-bg: #f4f6f3;
   --color-card: #ffffff;
 
-  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  /* New Design System Colors */
+  --color-black: #0a0a0a;
+  --color-surface: #111111;
+  --color-store-card: #171717;
+  --color-store-border: #2a2410;
+  --color-gold: #c9a84c;
+  --color-gold-lt: #e8c97a;
+  --color-gold-dim: #7a6030;
+  --color-white: #f5f0e8;
+  --color-muted: #7a7060;
+  --color-green: #25D366;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Inter', sans-serif;
 
   --animate-skeleton: skeleton 1.5s ease-in-out infinite;
-  --animate-slide-up: slide-up 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-slide-up: slide-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
   --animate-fade-in: fade-in 0.25s ease-out;
   --animate-scale-in: scale-in 0.25s cubic-bezier(0.32, 0.72, 0, 1);
   --animate-toast-in: toast-in 0.3s ease-out;
@@ -27,8 +40,8 @@
     50% { opacity: 1; }
   }
   @keyframes slide-up {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from { transform: translateY(60px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
   @keyframes fade-in {
     from { opacity: 0; }
@@ -58,8 +71,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-bg);
-  color: #1a2e1a;
+  background: var(--color-black);
+  color: var(--color-white);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
