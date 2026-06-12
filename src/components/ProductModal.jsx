@@ -4,12 +4,14 @@ import { useInquiries } from '../hooks/useInquiries';
 
 export default function ProductModal({ product, isOpen, onClose }) {
   const [qty, setQty] = useState(1);
+  const [address, setAddress] = useState('');
   const { createInquiry } = useInquiries();
 
-  // Reset quantity when modal opens/changes
+  // Reset quantity and address when modal opens/changes
   useEffect(() => {
     if (isOpen) {
       setQty(1);
+      setAddress('');
     }
   }, [isOpen, product]);
 
@@ -29,14 +31,14 @@ export default function ProductModal({ product, isOpen, onClose }) {
       `• ${product.brand || 'TAMADDISS'} – ${product.name}\n` +
       `• Quantity: ${qty}\n` +
       `• Total: ETB ${total}\n\n` +
-      `📍 My delivery address: \n\n` +
+      `📍 My delivery address: ${address.trim() || 'Addis Ababa'}\n\n` +
       `Please call me back within 10 minutes to confirm. If I don't hear back, I'll call you.`;
 
     // Log the inquiry to Supabase for the Admin panel (fire and forget to maintain synchronous execution)
     createInquiry({
       product_id: product.id,
       customer_phone: 'WhatsApp Order',
-      message: `Quantity: ${qty}, Total: ETB ${total}`,
+      message: `Quantity: ${qty}, Total: ETB ${total}, Address: ${address.trim() || 'Not provided'}`,
       is_handled: false
     }).catch((err) => {
       console.error('Failed to log inquiry to Supabase:', err);
@@ -318,6 +320,41 @@ export default function ProductModal({ product, isOpen, onClose }) {
                 +
               </button>
             </div>
+          </div>
+
+          {/* Delivery Address Input */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '6px',
+              fontSize: '11px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              color: 'var(--color-gold)',
+            }}>
+              Delivery Address
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. Bole, near Edna Mall, Apt 4B"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 14px',
+                borderRadius: '12px',
+                border: '1px solid var(--color-store-border)',
+                backgroundColor: 'var(--color-store-card)',
+                color: 'var(--color-white)',
+                fontSize: '13px',
+                fontFamily: 'var(--font-sans)',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-gold)'}
+              onBlur={(e) => e.target.style.borderColor = 'var(--color-store-border)'}
+            />
           </div>
 
           {/* WhatsApp Order Button */}
