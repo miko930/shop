@@ -3,7 +3,6 @@ import { IconSearch, IconX, IconSearchOff } from '@tabler/icons-react';
 import { useProducts } from '../hooks/useProducts';
 import { useCategories } from '../hooks/useCategories';
 import Navbar from '../components/Navbar';
-import AdBanner from '../components/AdBanner';
 import CategoryChips from '../components/CategoryChips';
 import ProductCard from '../components/ProductCard';
 import SkeletonCard from '../components/SkeletonCard';
@@ -74,11 +73,6 @@ export default function Home() {
           )}
         </div>
       </div>
-
-      {/* Ad Banner (Promotional area) */}
-      <section style={{ marginTop: 20, paddingLeft: 20, paddingRight: 20 }}>
-        <AdBanner />
-      </section>
 
       {/* Categories / Filters */}
       <section style={{ marginTop: 24 }}>
